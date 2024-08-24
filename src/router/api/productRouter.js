@@ -42,11 +42,11 @@ router.get('/:pid', async (req, res) => {
 router.put('/:pid', async (req, res) => {
     try{
         console.log('ingrese al PUT')
-        const {pid} = req.params
+        const pid = req.params
         const body = req.body
             const producto = await productService.updateProduct(pid,body)
-            res.send({status: 'succes', playload: producto})
-        res.send('Actualice el prodcto')
+                res.send({status: 'succes', playload: producto})
+        
     } catch (ERROR){
         console.log (ERROR)
     }
