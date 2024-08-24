@@ -21,5 +21,5 @@ app.get('/', (req , res) => {
 
 app.listen(PORT, err => {
     if (err) console.log(err)
-    console.log ("servidor escuchando en el ${PORT}")
+    console.log (`servidor escuchando en el ${PORT}`)
 })

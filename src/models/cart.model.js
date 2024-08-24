@@ -5,7 +5,7 @@ const collectionName = 'carts'
 const cartSchema = new Schema({
     
     title: {
-        type:String,
+        type: String,
         required: true
     },
     

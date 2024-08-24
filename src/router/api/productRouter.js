@@ -1,7 +1,8 @@
 const {Router} = require('express')
-const { ProductManagerMongo } = require('../../daos/Momgo/productManagerMongo')
+const { productManagerMongo } = require('../../daos/Momgo/productManagerMongo')
+
+const productService = new productManagerMongo()
 const router = Router()
-const productService = new ProductManagerMongo
 
 
 
@@ -19,7 +20,8 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        const products =  await productService.getProductst()
+        console.log('llegue al get productos')
+        const products =  await productService.getProducts()
         res.send ({status: 'succes', playload:products})
     } catch (ERROR) {
         console.log(ERROR)
@@ -27,7 +29,14 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:pid', async (req, res) => {
-    res.send('Este es el producto')
+    try {
+        console.log('seleccion de producto por ID')
+        const {pid} = req.params
+    const id =  await productService.getProduct(pid)
+    res.send({status:'succes', playload: id})
+    }catch (ERROR){
+        console.log (ERROR)
+    }
 })
 
 router.put('/:pid', async (req, res) => {
@@ -35,7 +44,15 @@ router.put('/:pid', async (req, res) => {
 })
 
 router.delete('/:pid', async (req,res) =>{
-    res.send('borramos el producto')
+    try {
+        console.log('Llegue al delete product')
+        const id = await productService.deleteProduct()
+        res.send({status: 'succes', playload: id})
+
+    }catch (ERROR) {
+
+        console.log(ERROR)
+    }
 })
 
 

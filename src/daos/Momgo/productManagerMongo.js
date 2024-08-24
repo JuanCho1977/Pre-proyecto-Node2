@@ -1,6 +1,7 @@
-const { productModel } = require("../../models/products.model")
+const { productModel } =  require ('../../models/products.model.js')
 
-class ProductManagerMongo {
+
+class productManagerMongo {
     constructor(){
         this.model = productModel
     }
@@ -9,9 +10,9 @@ class ProductManagerMongo {
     createProduct = async newProduct => await this.model.create(newProduct)
     deleteProduct = async DelProduct  => await this.model.deleteOne(opts)
     updateProduct = async actualizarProduct =>await this.model.updateOne(opts)
-    
-}
+
+} 
 
 module.exports = {
-    ProductManagerMongo
+    productManagerMongo
 }

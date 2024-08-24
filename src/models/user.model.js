@@ -15,13 +15,13 @@ const userSchema = new Schema({
         unique: true
     },
    
-    thumbnall: string,
+    thumbnall: String,
     price: Number,
     stock: Number,
    
     category:{
 
-        type: string,
+        type: String,
         require: true
     },
     create: {

@@ -1,9 +1,5 @@
-//const { create } = require('domain')
-//const {Schema, model, trusted} = require('mongoose')
-//const { type } = require('os')
-//const { title } = require('process')
-//const { stream } = require('undici-types')
-const {Schema, model} = require('mongoose')// este fue la instruccion inicial el resto de instrucciones de pusieron solas
+
+const {Schema, model} = require('mongoose')
 const collectionName = 'products'
 
 
@@ -20,7 +16,7 @@ const productSchema = new Schema({
         unique: true
     },
    
-    thumbnall: String,
+    thumbnail: String,
     price: Number,
     stock: Number,
    
@@ -38,5 +34,4 @@ const productSchema = new Schema({
 
 })
 
-const productModel = model('collectionName', productSchema)
-module.exports = {productModel}
+exports.productModel = model('collectionName', productSchema)
