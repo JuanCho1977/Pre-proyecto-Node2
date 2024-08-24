@@ -40,14 +40,25 @@ router.get('/:pid', async (req, res) => {
 })
 
 router.put('/:pid', async (req, res) => {
-    res.send('Actualice el prodcto')
+    try{
+        console.log('ingrese al PUT')
+        const {pid} = req.params
+        const body = req.body
+            const producto = await productService.updateProduct(pid,body)
+            res.send({status: 'succes', playload: producto})
+        res.send('Actualice el prodcto')
+    } catch (ERROR){
+        console.log (ERROR)
+    }
 })
 
 router.delete('/:pid', async (req,res) =>{
     try {
         console.log('Llegue al delete product')
-        const id = await productService.deleteProduct()
-        res.send({status: 'succes', playload: id})
+
+        const pid = req.params
+            const producto = await productService.deleteProduct(pid)
+                res.send({status: 'succes', playload: producto})
 
     }catch (ERROR) {
 
