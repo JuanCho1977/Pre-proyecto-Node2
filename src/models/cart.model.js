@@ -17,6 +17,4 @@ const cartSchema = new Schema({
 
 
 })
-
-const productModel = model('collectionName', productSchema)
-module.exports = {productModel}
+exports.cartstModel = model(collectionName, cartSchema)

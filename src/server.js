@@ -13,10 +13,7 @@ connectDb()
 app.use(routerApp)
 
 
-app.get('/', (req , res) => {
-    res.send ('Funcionando')
 
-})
 
 
 app.listen(PORT, err => {
