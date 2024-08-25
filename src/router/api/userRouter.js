@@ -1,26 +1,96 @@
 const {Router} = require('express')
+const { userManagerMongo } = require('../../daos/Momgo/userManagerMongo.js')
+
+
+const userService = new userManagerMongo()
 const router = Router()
 
-router.post ('/', (req, res) =>{
-    res.send('post del usuario')
+
+
+
+router.post('/', async (req, res) => {
+    try {
+        const {body} = req
+        if(!first_name || !last_name ||  !birthdate || !Location){
+            return res(404).send({ status: 'error', message: 'debe completar los campos obligatorios' })
+        }      const response = await userService.createUser(body)
+                    res.send({status: 'success', payload: response})
+    } catch (ERROR) {
+        console.log('Error:', ERROR);
+            res.status(500).send({ status: 'error', message: 'Error al cargarr el Usuario' })
+    }
 })
 
-router.get('/', (req, res) => {
-    res.send ('estos son todos los Usuario')
+router.get('/', async (req, res) => {
+    try {
+        console.log('llegue al get Usuarios')
+        const users =  await userService.getUsers()
+            if (!getusers) {
+                return res.status(404).send({ status: 'error', message: 'Usuario no encontrado' });
+                }
+                res.send({status:'succes', playload: users})
+                           
+    }catch (ERROR){
+        
+        console.log('Error:', ERROR);
+            res.status(500).send({ status: 'error', message: 'Error al obtener el Usuario' })
+    }
+    
 })
 
-router.get('/:pid', (req, res) => {
-    res.send('Este es el Usuario')
+router.get('/:pid', async (req, res) => {
+    try {
+        console.log('seleccion de Usuario por ID')
+        const {pid} = req.params
+            const user =  await userService.getUser(pid)
+                if (!user) {
+                    return res.status(404).send({ status: 'error', message: 'Usuario no encontrado' });
+                 }
+        
+                      res.send({status:'succes', playload: user})
+                   
+    }catch (ERROR){
+        
+        console.log('Error:', ERROR);
+            res.status(500).send({ status: 'error', message: 'Error al obtener el Usuario' })
+    }
 })
 
-router.put('/:pid', (req, res) => {
-    res.send('Actualice a el Usuario')
+router.put('/:pid', async (req, res) => {
+    try{
+        console.log('ingrese al PUT')
+        const pid = req.params
+        const body = req.body
+            const Usuario = await userService.updateUser(pid,body)
+            if (!Usuario) {
+                return res.status(404).send({ status: 'error', message: 'Usuario no Modificado' });
+             }    
+                  res.send({status:'succes', playload: Usuario})               
+    }catch (ERROR){
+    
+         console.log('Error:', ERROR);
+            res.status(500).send({ status: 'error', message: 'Error al obtener el Usuario' })
+                    
+    } 
 })
 
-router.delete('/:pid', (req,res) =>{
-    res.send('borramos el Usuarios')
-})
+router.delete('/:pid', async (req,res) =>{
+    try {
+        console.log('Llegue al delete user')
 
+        const pid = req.params
+            const Usuario = await userService.deleteUser(pid)
+                 if (!Usuario) {
+                     return res.status(404).send({ status: 'error', message: 'Usuario no Borrado' });
+                     }    
+                        res.send({status:'succes', playload: Usuario})               
+                }catch (ERROR){
+    
+                     console.log('Error:', ERROR);
+                         res.status(500).send({ status: 'error', message: 'Error al borrar el Usuario' })
+                    
+    } 
+})
 
 
 

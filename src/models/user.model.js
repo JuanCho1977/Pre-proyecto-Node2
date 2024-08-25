@@ -4,11 +4,14 @@ const collectionName = 'user'
 
 const userSchema = new Schema({
     
-    Name: {
+    first_name: {
         type:String,
         required: true
     },
-    
+    last_name: {
+        type:String,
+        required: true
+    },
     email: {
         type: String,
         required: true,
@@ -16,14 +19,12 @@ const userSchema = new Schema({
     },
    
     thumbnall: String,
-    price: Number,
-    stock: Number,
-   
-    category:{
+    birthdate: String, // como seria dd/mm/aaaa????
+    nationality: String,
+    Location: String,
 
-        type: String,
-        require: true
-    },
+   
+    
     create: {
         type: Date,
         default:Date.now
@@ -33,5 +34,4 @@ const userSchema = new Schema({
 
 })
 
-const productModel = model('collectionName', productSchema)
-module.exports = {productModel}
+exports.userModel = model(collectionName, userSchema)

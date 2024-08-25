@@ -34,4 +34,4 @@ const productSchema = new Schema({
 
 })
 
-exports.productModel = model('collectionName', productSchema)
+exports.productModel = model(collectionName, productSchema)

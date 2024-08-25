@@ -10,11 +10,13 @@ const router = Router()
 router.post('/', async (req, res) => {
     try {
         const {body} = req
-        // mas validaciones
-        const response = await productService.createProduct(body)
-        res.send({status: 'success', payload: response})
-    } catch (error) {
-        console.log(error)
+        if(!title || !code ||  !price || !category){
+            return res(404).send({ status: 'error', message: 'debe completar los campos obligatorios' })
+        }      const response = await productService.createProduct(body)
+                    res.send({status: 'success', payload: response})
+    } catch (ERROR) {
+        console.log('Error:', ERROR);
+            res.status(500).send({ status: 'error', message: 'Error al cargarr el producto' })
     }
 })
 
@@ -22,20 +24,35 @@ router.get('/', async (req, res) => {
     try {
         console.log('llegue al get productos')
         const products =  await productService.getProducts()
-        res.send ({status: 'succes', playload:products})
-    } catch (ERROR) {
-        console.log(ERROR)
+            if (!getProducts) {
+                return res.status(404).send({ status: 'error', message: 'Producto no encontrado' });
+                }
+                res.send({status:'succes', playload: products})
+        
+                   
+    }catch (ERROR){
+        
+        console.log('Error:', ERROR);
+            res.status(500).send({ status: 'error', message: 'Error al obtener el producto' })
     }
+    
 })
 
 router.get('/:pid', async (req, res) => {
     try {
         console.log('seleccion de producto por ID')
         const {pid} = req.params
-    const id =  await productService.getProduct(pid)
-    res.send({status:'succes', playload: id})
+            const product =  await productService.getProduct(pid)
+                if (!product) {
+                    return res.status(404).send({ status: 'error', message: 'Producto no encontrado' });
+                 }
+        
+                      res.send({status:'succes', playload: product})
+                   
     }catch (ERROR){
-        console.log (ERROR)
+        
+        console.log('Error:', ERROR);
+            res.status(500).send({ status: 'error', message: 'Error al obtener el producto' })
     }
 })
 
@@ -45,11 +62,16 @@ router.put('/:pid', async (req, res) => {
         const pid = req.params
         const body = req.body
             const producto = await productService.updateProduct(pid,body)
-                res.send({status: 'succes', playload: producto})
-        
-    } catch (ERROR){
-        console.log (ERROR)
-    }
+            if (!producto) {
+                return res.status(404).send({ status: 'error', message: 'Producto no Modificado' });
+             }    
+                  res.send({status:'succes', playload: producto})               
+    }catch (ERROR){
+    
+         console.log('Error:', ERROR);
+            res.status(500).send({ status: 'error', message: 'Error al obtener el producto' })
+                    
+    } 
 })
 
 router.delete('/:pid', async (req,res) =>{
@@ -58,12 +80,16 @@ router.delete('/:pid', async (req,res) =>{
 
         const pid = req.params
             const producto = await productService.deleteProduct(pid)
-                res.send({status: 'succes', playload: producto})
-
-    }catch (ERROR) {
-
-        console.log(ERROR)
-    }
+                 if (!producto) {
+                     return res.status(404).send({ status: 'error', message: 'Producto no Borrado' });
+                     }    
+                        res.send({status:'succes', playload: producto})               
+                }catch (ERROR){
+    
+                     console.log('Error:', ERROR);
+                         res.status(500).send({ status: 'error', message: 'Error al borrar el producto' })
+                    
+    } 
 })
 
 
