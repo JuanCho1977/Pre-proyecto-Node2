@@ -1,0 +1,86 @@
+<h1>Bienvenidos al Real Time Produt </h1>
+<h2>Planilla de ingreso de productos</h2>
+<section class="container mt-5 w-100 d-flex justify-content-center aling-items-center mb-8">
+    <form id="product-form" class="form-group w-50">
+        <input type="text" name="title" class="form-control" placeholder=" ingrese el nombre del producto">
+        <input type="text" name="thumbnail" class="from-control" placeholder="ingrese la URL de la imagen">
+        <input type="text" name="Description" class="from-control" placeholder="Ingrese una breve descripcion">
+        <input type="text" name="price" class="from-control" placeholder="ingrese el precio del producto">
+        <input type="text" name="Stock" class="from-control" placeholder="ingrese el stock actua del producto">
+        <button class="btn btn-outline-dark">Guardar</button>
+    </form>
+</section>
+    
+<div id="Lista-productos" class=" d-flex justify-content-center align-items-center gap 4">
+
+
+</div>
+
+
+<Script src="/socket.io/socket.io.js"> </Script>
+<Script>
+    const socket = io()
+    socket.on('productos', data =>{
+
+        const productListDiv = document.querySelector ('#lista-productos')
+        let Mostrar = ''
+
+       data.forEach (product =>{
+            Mostrar += `
+                <div class='card w-25'> 
+                    <img src='${product.thumbnail}' class='card-image-top'>
+                    <div class='card-boby'>
+                        
+                        <p>Nombre:${product.title}</p>
+                        <p>Descripcion:${prodcut.description}</p>
+                        <p>Stock: ${porduct.Stock}</p>
+                        <p>Precio:${product.price}</p>
+                        <p>Imagen:${product.thumbnail}</p>
+                    
+
+                    </div> 
+                    <div class='card-footer'>
+                        <button class='btn btn-outine-dark w-100' id='${product.id}' onclik='eliminarProducto(${product.id})'>Eliminar </button>
+
+
+                    </div>
+
+                </div>
+            `
+       })
+        productListDiv.innerHTML = Mostrar
+    
+    
+    })
+
+    form.addEventListener ('submit', lista => {
+        lista.preventDefault()
+        const title = form.elements.titel.value
+        const price = form.elements.price.value
+        const description = form.elements.description.value 
+        const stock = form.elementes.stock.value 
+        const thumbnail = form.elements.thumbnail.value
+
+        socket.emit('agregoProducto', {
+            
+            title,
+            price: Number[price],
+            description,
+            stock: Number[stock],
+            thumbnail,
+
+        })
+        form.reset()       
+    })
+
+    BotonElim = querySelector.All ('boton')
+    BotonElim.forEach(boton =>{
+        boton.addEventListener('clik', evt =>{
+            const botonId = boton.getAttribute('id')
+            socket.emit ('DeleteProduct', {botonId})
+        })
+    })
+
+</Script>
+    
+   
