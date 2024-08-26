@@ -15,72 +15,75 @@
 
 
 </div>
-
-
-<Script src="/socket.io/socket.io.js"> </Script>
-<Script>
-    const socket = io()
-    socket.on('productos', data =>{
-
-        const productListDiv = document.querySelector ('#lista-productos')
-        let Mostrar = ''
-
-       data.forEach (product =>{
-            Mostrar += `
-                <div class='card w-25'> 
-                    <img src='${product.thumbnail}' class='card-image-top'>
-                    <div class='card-boby'>
-                        
-                        <p>Nombre:${product.title}</p>
-                        <p>Descripcion:${prodcut.description}</p>
-                        <p>Stock: ${porduct.Stock}</p>
-                        <p>Precio:${product.price}</p>
-                        <p>Imagen:${product.thumbnail}</p>
-                    
-
-                    </div> 
-                    <div class='card-footer'>
-                        <button class='btn btn-outine-dark w-100' id='${product.id}' onclik='eliminarProducto(${product.id})'>Eliminar </button>
-
-
-                    </div>
-
-                </div>
-            `
-       })
-        productListDiv.innerHTML = Mostrar
+<form action="/" method="POST"  enctype="multipart/form-data">
+        <input type="file" name="myFile">
     
-    
-    })
+</form>
 
-    form.addEventListener ('submit', lista => {
-        lista.preventDefault()
-        const title = form.elements.titel.value
-        const price = form.elements.price.value
-        const description = form.elements.description.value 
-        const stock = form.elementes.stock.value 
-        const thumbnail = form.elements.thumbnail.value
-
-        socket.emit('agregoProducto', {
-            
-            title,
-            price: Number[price],
-            description,
-            stock: Number[stock],
-            thumbnail,
-
-        })
-        form.reset()       
-    })
-
-    BotonElim = querySelector.All ('boton')
-    BotonElim.forEach(boton =>{
-        boton.addEventListener('clik', evt =>{
-            const botonId = boton.getAttribute('id')
-            socket.emit ('DeleteProduct', {botonId})
-        })
-    })
-
-</Script>
+//<Script src="/socket.io/socket.io.js"> </Script>
+//<Script>
+//    const socket = io()
+//    socket.on('productos', data =>{
+//
+//        const productListDiv = document.querySelector ('#lista-productos')
+//        let Mostrar = ''
+//
+//       data.forEach (product =>{
+//            Mostrar += `
+//                <div class='card w-25'> 
+//                    <img src='${product.thumbnail}' class='card-image-top'>
+//                    <div class='card-boby'>
+//                        
+//                        <p>Nombre:${product.title}</p>
+//                        <p>Descripcion:${prodcut.description}</p>
+//                        <p>Stock: ${porduct.Stock}</p>
+//                        <p>Precio:${product.price}</p>
+//                        <p>Imagen:${product.thumbnail}</p>
+//                    
+//
+//                    </div> 
+//                    <div class='card-footer'>
+//                        <button class='btn btn-outine-dark w-100' id='${product.id}' onclik='eliminarProducto(${product.id})'>Eliminar </button>
+//
+//
+//                    </div>
+//
+//                </div>
+//            `
+//       })
+//        productListDiv.innerHTML = Mostrar
+//    
+//    
+//    })
+//
+//    form.addEventListener ('submit', lista => {
+//        lista.preventDefault()
+//        const title = form.elements.titel.value
+//        const price = form.elements.price.value
+//        const description = form.elements.description.value 
+//        const stock = form.elementes.stock.value 
+//        const thumbnail = form.elements.thumbnail.value
+//
+//        socket.emit('agregoProducto', {
+//            
+//            title,
+//            price: Number[price],
+//            description,
+//            stock: Number[stock],
+//            thumbnail,
+//
+//        })
+//        form.reset()       
+//    })
+//
+//    BotonElim = querySelector.All ('boton')
+//    BotonElim.forEach(boton =>{
+//        boton.addEventListener('clik', evt =>{
+//            const botonId = boton.getAttribute('id')
+//            socket.emit ('DeleteProduct', {botonId})
+//        })
+//    })
+//
+//</Script>
     
    
