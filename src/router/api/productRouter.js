@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
     try {
         console.log('llegue al get productos')
         const products =  await productService.getProducts()
-            if (!getProducts) {
+            if (products.length === 0) {
                 return res.status(404).send({ status: 'error', message: 'Producto no encontrado' });
                 }
                 res.send({status:'succes', playload: products})
@@ -62,7 +62,7 @@ router.put('/:pid', async (req, res) => {
         const pid = req.params
         const body = req.body
             const producto = await productService.updateProduct(pid,body)
-            if (!producto) {
+            if (producto.modifiedCount === 0 ) {
                 return res.status(404).send({ status: 'error', message: 'Producto no Modificado' });
              }    
                   res.send({status:'succes', playload: producto})               
@@ -78,9 +78,12 @@ router.delete('/:pid', async (req,res) =>{
     try {
         console.log('Llegue al delete product')
 
-        const pid = req.params
+        const { pid } = req.params
+        if (!mongoose.Types.ObjectId.isValid(pid)) {
+            return res.status(404).send({ status: 'error', message: 'ID de producto no válido' });
+        }
             const producto = await productService.deleteProduct(pid)
-                 if (!producto) {
+                 if (producto.deletedCount === 0) {
                      return res.status(404).send({ status: 'error', message: 'Producto no Borrado' });
                      }    
                         res.send({status:'succes', playload: producto})               

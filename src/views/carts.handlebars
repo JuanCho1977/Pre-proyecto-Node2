@@ -1,0 +1,38 @@
+
+<div class="container">
+    <h2>Carritos de Compras</h2>
+
+    <form action="../router/viewsRouter.js" method="POST">
+        <div>
+            <label for="title">Nombre del Carrito:</label>
+            <input type="text" name="title" id="title" required>
+            <button type="submit">Crear Carrito</button>
+        </div>
+    </form>
+
+    {{#if carts.length}}
+        <ul>
+            {{#each carts}}
+                <li>
+                    <h3>{{title}}</h3>
+                    <p>Creado: {{create}}</p>
+
+                    <!-- actualizar carrito -->
+                    <form action="../router/index.js" method="POST">
+                        <input type="hidden" name="_method" value="PUT">
+                        <input type="text" name="title" placeholder="Actualizar nombre del carrito">
+                        <button type="submit">Actualizar Carrito</button>
+                    </form>
+
+                    <!-- eliminar carrito -->
+                    <form action="/carts/{{_id}}" method="POST">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit">Eliminar Carrito</button>
+                    </form>
+                </li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <p>No hay carritos disponibles.</p>
+    {{/if}}
+</div>

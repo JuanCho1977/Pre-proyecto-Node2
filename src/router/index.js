@@ -3,7 +3,7 @@ const productRouter = require('./api/productRouter.js')
 const cartsRouter = require('./api/cartsRouter.js')
 const userRoute = require ('./api/userRouter.js')
 const menssageRouter = require('./api/MenssageRouter.js')
-const viewRouter  = require ('./router/viewsRouter.js')
+const viewRouter  = require ('./viewsRouter.js')
 
 const router =  Router()
 
