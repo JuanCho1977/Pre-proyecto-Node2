@@ -7,22 +7,25 @@ const router = Router()
 
 
 
-router.post('/', async (req, res) => {
+router.post('/product', async (req, res) => {
     try {
-        const {body} = req
+        console.log("estoy en el post de produtos")
+        const {title,code,price,category} = req.body
         if(!title || !code ||  !price || !category){
             return res(404).send({ status: 'error', message: 'debe completar los campos obligatorios' })
-        }      const response = await productService.createProduct(body)
+        }      const response = await productService.createProduct(req.body)
                     res.send({status: 'success', payload: response})
+                    console.log("se a creado con exito la carga")
     } catch (ERROR) {
         console.log('Error:', ERROR);
             res.status(500).send({ status: 'error', message: 'Error al cargarr el producto' })
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/search', async (req, res) => {
     try {
         console.log('llegue al get productos')
+
         const products =  await productService.getProducts()
             if (products.length === 0) {
                 return res.status(404).send({ status: 'error', message: 'Producto no encontrado' });

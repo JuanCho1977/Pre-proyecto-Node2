@@ -3,10 +3,10 @@
     <h2>Lista de Productos</h2>
 
     
-    <form action="/products" method="GET">
+    <form action="/" method="GET">
         <div>
-            <label for="query">Buscar por Nombre Producto o ID:</label>
-            <input type="text" name="query" id="query" placeholder="Ingrese nombre o ID">
+            <label for="query">Buscar por ID:</label>
+            <input type="text" name="query" id="query" placeholder="Ingrese ID">
             <button type="submit">Buscar</button>
         </div>
     </form>
@@ -22,8 +22,8 @@
                     <p>Categoría: {{category}}</p>
                     <p>Stock: {{stock}}</p>
 
-                    <!-- Botón de compra -->
-                    <form action="../router/api/cartsRouter.js" method="POST">
+                   
+                    <form action="../router/api/product" method="POST">
                         <input type="hidden" name="productId" value="{{_id}}">
                         <button type="submit">Agregar al Carrito</button>
                     </form>

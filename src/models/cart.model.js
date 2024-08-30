@@ -1,4 +1,4 @@
-const {Schema, model} = require('mongoose')// este fue la instruccion inicial el resto de instrucciones de pusieron solas
+const {Schema, model} = require('mongoose')
 const collectionName = 'carts'
 
 
@@ -17,5 +17,5 @@ const cartSchema = new Schema({
 
 
 })
-exports.cartstModel = model(collectionName, cartSchema)
+exports.cartsModel = model(collectionName, cartSchema)
 

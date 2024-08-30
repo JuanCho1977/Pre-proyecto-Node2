@@ -8,12 +8,12 @@ const router = Router()
 
 
 
-router.post('/', async (req, res) => {
+router.post('/newuser', async (req, res) => {
     try {
-        const {body} = req
+        const {first_name, last_name, birthdate, Location} = req.body
         if(!first_name || !last_name ||  !birthdate || !Location){
             return res(404).send({ status: 'error', message: 'debe completar los campos obligatorios' })
-        }      const response = await userService.createUser(body)
+        }      const response = await userService.createUser(req.body)
                     res.send({status: 'success', payload: response})
     } catch (ERROR) {
         console.log('Error:', ERROR);
@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/users', async (req, res) => {
     try {
         console.log('llegue al get Usuarios')
         const users =  await userService.getUsers()
@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
     
 })
 
-router.get('/:pid', async (req, res) => {
+router.get('/user/:pid', async (req, res) => {
     try {
         console.log('seleccion de Usuario por ID')
         const {pid} = req.params
@@ -56,7 +56,7 @@ router.get('/:pid', async (req, res) => {
     }
 })
 
-router.put('/:pid', async (req, res) => {
+router.put('/user/:pid', async (req, res) => {
     try{
         console.log('ingrese al PUT')
         const pid = req.params

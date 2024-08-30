@@ -6,8 +6,9 @@ const router = Router()
 
 
 
-router.post('/', async (req, res) => {
+router.post('/add', async (req, res) => {
     try {
+        console.log("ingrese al POST de Carrito")
         const { title } = req.body;
             if (!title) {
                 return res.status(400).send({ status: 'error', message: 'Debe completar los campos obligatorios' });
@@ -21,10 +22,10 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
+router.get('/carts', async (req, res) => {
     try {
         const carts = await cartService.getcarts();
-            if (!carts.length) {
+            if (!carts || carts.length === 0) {
                 return res.status(404).send({ status: 'error', message: 'No se encontraron carritos' });
             }
 
@@ -35,7 +36,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/cart/:id', async (req, res) => {
     try {
         console.log("ingrese al GET de Carrito x id")
         const { id } = req.params;
@@ -51,7 +52,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/cart/:id', async (req, res) => {
     try {
         console.log("Estoy en PUT de carrito")
         const { id } = req.params;
