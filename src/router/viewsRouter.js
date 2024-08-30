@@ -33,9 +33,10 @@ router.get('/products', async (req, res) => {
 
         
         res.render('product', {
+            
             title: 'Lista de Productos',
             products: products
-        });
+        })
     } catch (ERROR) {
         console.log('Error:', ERROR);
         res.status(500).send({ status: 'error', message: 'Error al obtener los productos' })
