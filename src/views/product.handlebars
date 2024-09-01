@@ -31,9 +31,9 @@
                     <p>Stock: {{stock}}</p>
 
                    
-                    <form action="/carts" method="POST">
+                    <form action="/carts/delete" method="POST">
                         <input type="hidden" name="productId" value="{{_id}}">
-                        <button type="submit">Agregar al Carrito</button>
+                        <button type="submit">Borrar Producto</button>
                     </form>
                 </li>
             {{/each}}
@@ -41,4 +41,19 @@
     {{else}}
         <p>No hay productos disponibles.</p>
     {{/if}}
+
+    <h3>Agregar Producto al Carrito</h3>
+    <form action="/carts" method="POST">
+        <label for="productId">ID del Producto:</label>
+        <input type="text" id="productId" name="productId" placeholder="Ingrese el ID del producto">
+        <button type="submit">Agregar al Carrito</button>
+    </form>
+    <form action="/carts/data" method="POST">
+        <div>
+            <label for="query">Guardar Carrito:</label>
+            
+            <button class="btn btn-primary">Guardar</button>
+        </div>
+    </form>
+
 </div>
