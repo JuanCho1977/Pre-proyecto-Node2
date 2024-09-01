@@ -2,7 +2,7 @@
 <div class="container">
     <h2>Carritos de Compras</h2>
  
-    <form action="./views" method="GET"> <!--NO ESTOY ENTENDIENDO QUE DIRECCION PASAR -->
+    <form action="/carts" method="GET"> <!--NO ESTOY ENTENDIENDO QUE DIRECCION PASAR -->
         <div>
             <label for="title">Nombre del Carrito:</label>
             <input type="text" name="title" id="title" required>
@@ -12,8 +12,10 @@
 
     {{#if carts.length}}
         <ul>
+            <h2>carritos guardados</h2>
             {{#each carts}}
                 <li>
+                    
                     <h3>{{title}}</h3>
                     <p>Creado: {{create}}</p>
 

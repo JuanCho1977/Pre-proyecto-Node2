@@ -6,11 +6,11 @@ class cartManagerMongo {
         this.model = cartsModel
     }
     getcarts   = async () => {
-        const carts = await this.model.find({});
+        const carts = await this.model.find({}).lean();
         return carts || []
     }
     getcart    = async id => await this.model.findOne({'_id':id}) 
-    createcart = async newCart => await this.model.create(newCart)
+    createcart = async productId => await this.model.create(productId)
     deletecart = async (id) => await this.model.deleteOne({'_id':id})
     updatecart = async (id, upData) =>await this.model.updateOne({'_id':id, upData})
 

@@ -2,11 +2,19 @@
 <div class="container">
     <h2>Lista de Productos</h2>
 
-    
-    <form action="/views" method="GET">
+     
+    <form action="/products" method="GET">
+        <div>
+            <label for="query">Mostrar Todos los productos:</label>
+            
+            <button class="btn btn-primary">MOSTRAR</button>
+        </div>
+    </form>
+
+    <form action="/products/search" method="GET">
         <div>
             <label for="query">Buscar por ID:</label>
-            <input type="text" name="query" id="query" placeholder="Ingrese ID">
+            <input type="text" id="query" name="id" placeholder="Ingrese ID">
             <button type="submit">Buscar</button>
         </div>
     </form>
@@ -23,7 +31,7 @@
                     <p>Stock: {{stock}}</p>
 
                    
-                    <form action="../router/api/product" method="POST">
+                    <form action="/carts" method="POST">
                         <input type="hidden" name="productId" value="{{_id}}">
                         <button type="submit">Agregar al Carrito</button>
                     </form>

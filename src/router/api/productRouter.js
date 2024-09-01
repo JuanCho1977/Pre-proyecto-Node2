@@ -44,8 +44,8 @@ router.get('/search', async (req, res) => {
 router.get('/:pid', async (req, res) => {
     try {
         console.log('seleccion de producto por ID')
-        const {pid} = req.params
-            const product =  await productService.getProduct(pid)
+        const {id} = req.params
+            const product =  await productService.getProduct(id)
                 if (!product) {
                     return res.status(404).send({ status: 'error', message: 'Producto no encontrado' });
                  }
