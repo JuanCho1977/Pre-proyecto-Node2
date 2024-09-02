@@ -19,7 +19,11 @@ class MemoryDatabase {
     getCart() {
         return this.cart
     }
+
+    clearCart() {
+        this.cart = []
+        return this.cart
+    }
+
 }
-
-
-    module.exports = { MemoryDatabase }
+ module.exports = { MemoryDatabase }

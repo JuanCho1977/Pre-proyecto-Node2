@@ -5,6 +5,7 @@ const { MemoryDatabase } = require('../../src/daos/Memory/memory.js')
 
 
 const mongoose = require('mongoose'); 
+const { cartsModel } = require('../models/cart.model.js');
 const cartService = new cartManagerMongo()
 const productService = new productManagerMongo()
 const memoryDatabase = new MemoryDatabase()
@@ -63,28 +64,40 @@ router.post('/carts/delete', async (req, res) => {
     }
 });
 router.post('/carts/data', async (req, res) => {
+    
     try {
         console.log("ingrese al POST DATA de Carrito")
-        const { productId  } = req.body;
-            if (!productId ) {
-                return res.status(400).send({ status: 'error', message: 'Debe completar los campos obligatorios' });
-            }
-            console.log(` ID POST DATA de Carrito ${productId}`)
-            const carts = memoryDatabase.removeProductFromCart(productId)
-            const products = await productService.getProducts()
-            const cartProducts = products.filter(product => carts.includes(product._id.toString()))
-            const resCart = await cartService.createcart(cartProducts)
-            console.log(cartProducts)
-            res.render('product', {
-            title: 'Carritos de Compras enviado'
-            })
+        const cartProducts = memoryDatabase.getCart()
+        console.log("Productos a transferir a MongoDB:", cartProducts)
+  
+        const Carts = await cartService.getcarts()
+            if(Carts) {
+                const vacioCart = Carts.find(c => Array.isArray(c.ProductID) && c.ProductID.length === 0)
+  
+                if (vacioCart) {
+        
+                 await cartService.updatecart(vacioCart._id, { $push: { ProductID: cartProducts.map(productId => new mongoose.Types.ObjectId(productId)) } } )
+                 
+                } else {
+      
+                    const newCart = await cartService.createcart({ ProductID: cartProducts.map(productId => new mongoose.Types.ObjectId(productId)) })
            
-            res.send({ status: 'success', payload: resCart })
-    } catch (ERROR) {
-        console.log('Error:', ERROR);
-        res.status(500).send({ status: 'error', message: 'Error al crear el carrito' });
-    }
-});
+  
+                    memoryDatabase.clearCart()
+                    res.render('product', { title: 'Carritos de Compras' })
+
+                    res.send({ status: 'success', payload: newCart })
+                 }
+            } else { return res.status(404).send({ status: 'error', message: 'No hay carritos disponibles.' })
+        } 
+    }  catch (ERROR) {
+                console.log('Error:', ERROR)
+                res.status(500).send({ status: 'error', message: 'Error al crear el carrito' })
+             }
+              
+})
+  
+ 
 
 router.get('/products/search', async (req, res) => {
   try {
@@ -126,4 +139,3 @@ router.get('/products', async (req, res) => {
     }
 })
 module.exports = router;
-//

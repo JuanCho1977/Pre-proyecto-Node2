@@ -48,12 +48,31 @@
         <input type="text" id="productId" name="productId" placeholder="Ingrese el ID del producto">
         <button type="submit">Agregar al Carrito</button>
     </form>
-    <form action="/carts/data" method="POST">
+    <form id="guardarCarritoForm" action="/carts/data" method="POST">
         <div>
             <label for="query">Guardar Carrito:</label>
             
-            <button class="btn btn-primary">Guardar</button>
+            <button id="guardarCarritoBtn" class="btn btn-primary">Guardar</button>
         </div>
     </form>
 
 </div>
+
+<script>
+    
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("guardarCarritoForm");
+        const button = document.getElementById("guardarCarritoBtn");
+
+        button.addEventListener("click", function (event) {
+          
+            event.preventDefault();
+
+           
+            alert("Guardando el carrito...");
+
+           
+            form.submit();
+        });
+    });
+</script>

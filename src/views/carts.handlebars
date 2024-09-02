@@ -2,7 +2,7 @@
 <div class="container">
     <h2>Carritos de Compras</h2>
  
-    <form action="/carts" method="GET"> <!--NO ESTOY ENTENDIENDO QUE DIRECCION PASAR -->
+    <form action="/carts" method="GET"> 
         <div>
             <label for="title">Nombre del Carrito:</label>
             <input type="text" name="title" id="title" required>
@@ -20,7 +20,7 @@
                     <p>Creado: {{create}}</p>
 
                    
-                    <form action="../router/api/carts/:id" method="POST"> <!--NO ESTOY ENTENDIENDO QUE DIRECCION PASAR -->
+                    <form action="" method="POST"> 
                         <input type="hidden" name="_method" value="PUT">
                         <input type="text" name="title" placeholder="Actualizar nombre del carrito">
                         <button type="submit">Actualizar Carrito</button>
