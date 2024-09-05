@@ -4,8 +4,10 @@ const { productManagerMongo } = require('../../src/daos/Momgo/productManagerMong
 const { MemoryDatabase } = require('../../src/daos/Memory/memory.js')
 
 
-const mongoose = require('mongoose'); 
-const { cartsModel } = require('../models/cart.model.js');
+const mongoose = require('mongoose') 
+const { cartsModel } = require('../models/cart.model.js')
+const { productModel } = require('../models/products.model.js')
+
 const cartService = new cartManagerMongo()
 const productService = new productManagerMongo()
 const memoryDatabase = new MemoryDatabase()
@@ -16,18 +18,18 @@ router.post('/carts', async (req, res) => {
         console.log("Estoy en el POST de Carritos");
         const { productId } = req.body;
 
-        console.log(`ID de producto recibido: ${productId}`);
+        console.log(`ID de producto recibido: ${productId}`)
 
         
-        const carts = memoryDatabase.addProductToCart(productId);
+        const carts = memoryDatabase.addProductToCart(productId)
 
         if (!carts || carts.length === 0) {
-            return res.status(404).send({ status: 'error', message: 'No se encontraron productos en el carrito' });
+            return res.status(404).send({ status: 'error', message: 'No se encontraron productos en el carrito' })
         }
 
         // voy al memory
         const products = await productService.getProducts(); // Cambia a obtener todos los productos
-        const cartProducts = products.filter(product => carts.includes(product._id.toString()));
+        const cartProducts = products.filter(product => carts.includes(product._id.toString()))
 
         res.render('product', {
             title: 'Carritos de Compras',
@@ -35,24 +37,24 @@ router.post('/carts', async (req, res) => {
         });
     } catch (ERROR) {
         console.log('Error:', ERROR);
-        res.status(500).send({ status: 'error', message: 'Error al obtener los productos del carrito' });
+        res.status(500).send({ status: 'error', message: 'Error al obtener los productos del carrito' })
     }
 });
 
 
 router.post('/carts/delete', async (req, res) => {
     try {
-        console.log("Estoy en el DELETE de Carritos");
+        console.log("Estoy en el DELETE de Carritos")
         const { productId } = req.body;
 
-        console.log(`ID de producto a eliminar: ${productId}`);
+        console.log(`ID de producto a eliminar: ${productId}`)
 
         
-        const carts = memoryDatabase.removeProductFromCart(productId);
+        const carts = memoryDatabase.removeProductFromCart(productId)
 
         // Obtengo los detalles del producto desde la base de datos MEMORY
         const products = await productService.getProducts();
-        const cartProducts = products.filter(product => carts.includes(product._id.toString()));
+        const cartProducts = products.filter(product => carts.includes(product._id.toString()))
 
         res.render('product', {
             title: 'Carritos de Compras',
@@ -60,7 +62,7 @@ router.post('/carts/delete', async (req, res) => {
         })
     } catch (ERROR) {
         console.log('Error:', ERROR);
-        res.status(500).send({ status: 'error', message: 'Error al eliminar el producto del carrito' });
+        res.status(500).send({ status: 'error', message: 'Error al eliminar el producto del carrito' })
     }
 });
 router.post('/carts/data', async (req, res) => {
@@ -124,15 +126,36 @@ router.get('/products/search', async (req, res) => {
 router.get('/products', async (req, res) => {
     try {
        console.log("estoy en el GETs PRODUCTS")
+
+       const {limit, page} = req.query
+
+       console.log (limit)
+       if(!limit || !page ){
+        console.log("ingreso valor invalido")
+        return res.status(404).send({ status: 'error', message: 'Producto no encontrado' });
         
-        const products = await productService.getProducts()
-        
-        
-        res.render('product', {
+           }else { 
+                const products = await productModel.paginate({},{limit, page})
+                console.log(products)
+                const productSinId = await products.docs.map( products => {
+                    const{id,...rest} = products.toObject()
+                    return rest
+                    
+                })
+                console.log(productSinId)
+                res.render('product', {
             
-            title: 'Lista de Productos',
-            products: products
-        })
+                title: 'Lista de Productos',
+                products: productSinId,
+                currentPage: products.Page,
+                totalPages: products.totalPages,
+                hasNextPage: products.hasNextPage,
+                hasPreviousPage: products.hasPreviousPage,
+                nextPage: products.nextPage,
+                previousPage: products.previousPage,
+                
+                })
+    }
     } catch (ERROR) {
         console.log('Error:', ERROR);
         res.status(500).send({ status: 'error', message: 'Error al obtener los productos' })

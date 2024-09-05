@@ -1,5 +1,7 @@
 
 const {Schema, model} = require('mongoose')
+const mongoosePaginate = require( "mongoose-paginate-v2" )
+
 const collectionName = 'products'
 
 
@@ -33,5 +35,5 @@ const productSchema = new Schema({
 
 
 })
-
+productSchema.plugin(mongoosePaginate)
 exports.productModel = model(collectionName, productSchema)
