@@ -10,7 +10,7 @@ const router = Router()
 router.post('/product', async (req, res) => {
     try {
         console.log("estoy en el post de produtos")
-        const {title,code,price,category} = req.body
+        const {title,code,price,thumbnail,category} = req.body
         if(!title || !code ||  !price || !category){
             return res(404).send({ status: 'error', message: 'debe completar los campos obligatorios' })
         }      const response = await productService.createProduct(req.body)

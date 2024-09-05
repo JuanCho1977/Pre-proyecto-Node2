@@ -8,7 +8,7 @@ const viewRouter  = require ('./viewsRouter.js')
 const router =  Router()
 
 router.use('/', viewRouter)
-router.use('/api/products', productRouter)
+router.use('/api/product', productRouter)
 router.use('/api/carts', cartsRouter)
 router.use('/api/user', userRoute)
 router.use('/api/menssage', menssageRouter)

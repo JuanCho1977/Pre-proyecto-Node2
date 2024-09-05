@@ -38,6 +38,7 @@
                     <p>Precio: ${{price}}</p>
                     <p>Categoría: {{category}}</p>
                     <p>Stock: {{stock}}</p>
+                    <p>Foto: {{thumbnail}}</p>
 
                    
                     <form action="/carts/delete" method="POST">
@@ -64,20 +65,22 @@
             <button id="guardarCarritoBtn" class="btn btn-primary">Guardar</button>
         </div>
     </form>
-
-</div>
-
 <div>
-    {{#if hasPreviousPage}}
-        <p><a href="/products?page={{previousPage}}&limit={{limit}}">Anterior</a></p>
-    {{/if}}    
-
+    
     <p>Page {{currentPage}} of {{totalPages}}</p>
 
+    {{#if hasPrevPage}}
+        <a href="/products?page={{prevPage}}">Anterior</a>
+    {{/if}}    
+
     {{#if hasNextPage}}
-        <p><a href="/products?page={{nextPage}}&limit={{limit}}">Siguiente</a></p>
+        <a href="/products?page={{nextPage}}">Siguiente</a>
     {{/if}}
 </div>
+
+</div>
+
+
 
 <script>
     

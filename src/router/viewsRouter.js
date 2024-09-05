@@ -126,10 +126,10 @@ router.get('/products/search', async (req, res) => {
 router.get('/products', async (req, res) => {
     try {
        console.log("estoy en el GETs PRODUCTS")
+        let page = req.query.page || 1
+       let limit = req.query.limit || 1
 
-       const {limit, page} = req.query
-
-       console.log (limit)
+       console.log (page)
        if(!limit || !page ){
         console.log("ingreso valor invalido")
         return res.status(404).send({ status: 'error', message: 'Producto no encontrado' });
@@ -147,7 +147,7 @@ router.get('/products', async (req, res) => {
             
                 title: 'Lista de Productos',
                 products: productSinId,
-                currentPage: products.Page,
+                currentPage: products.page,
                 totalPages: products.totalPages,
                 hasNextPage: products.hasNextPage,
                 hasPreviousPage: products.hasPreviousPage,

@@ -2,5 +2,5 @@ const { connect } = require("mongoose");
 
 exports.connectDb = async () => {
     console.log('la base de datos esta conectada')
-    await connect('mongodb://127.0.0.1:27017/HTML001')
+    await connect('mongodb+srv://gonzalezinsfranjm:PmOLcH5O8FLyJCts@cluster0.54olv.mongodb.net/')
 }
