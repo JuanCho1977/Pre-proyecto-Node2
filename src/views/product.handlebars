@@ -64,19 +64,35 @@
             
             <button id="guardarCarritoBtn" class="btn btn-primary">Guardar</button>
         </div>
-    </form>
-<div>
     
-    <p>Page {{currentPage}} of {{totalPages}}</p>
+        
+    </form>
+        
+        <div>
 
-    {{#if hasPrevPage}}
-        <a href="/products?page={{prevPage}}">Anterior</a>
-    {{/if}}    
+            <p>Pagina {{currentPage}} of {{totalPages}}</p>
+            
+            {{#if hasPrevPage }}
+                <p><a href="/products?page={{prevPage}}"style="margin-right: 40px;">Anterior</a></p>
+            {{/if}}    
 
-    {{#if hasNextPage}}
-        <a href="/products?page={{nextPage}}">Siguiente</a>
-    {{/if}}
-</div>
+            {{#if hasNextPage}}
+                <p><a href="/products?page={{nextPage}}"style="margin-left: 40px;">Siguiente</a></p>
+            {{/if}}
+                
+                
+                
+                <p>Total de paginas: {{totalPages}}</p>
+                <p>Limit: {{limit}}</p>
+                <p>pagina Anterior: {{prevPage}}</p>
+                <p>pagina Siguiente: {{nextPage}}</p>
+                
+             
+        
+        </div>
+
+
+
 
 </div>
 

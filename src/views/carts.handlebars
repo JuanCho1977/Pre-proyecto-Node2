@@ -2,7 +2,7 @@
 <div class="container">
     <h2>Carritos de Compras</h2>
  
-    <form action="/carts" method="GET"> 
+    <form action="/cartsadd" method="POST"> 
         <div>
             <label for="title">Nombre del Carrito:</label>
             <input type="text" name="title" id="title" required>
@@ -15,20 +15,16 @@
             <h2>carritos guardados</h2>
             {{#each carts}}
                 <li>
-                    
-                    <h3>{{title}}</h3>
+                    <h3>Titulo: {{title}}</h3>
+                    <h3>ID: {{_id}}</h3>
                     <p>Creado: {{create}}</p>
 
                    
-                    <form action="" method="POST"> 
-                        <input type="hidden" name="_method" value="PUT">
-                        <input type="text" name="title" placeholder="Actualizar nombre del carrito">
-                        <button type="submit">Actualizar Carrito</button>
-                    </form>
+        
 
                   
-                    <form action="/carts/{{_id}}" method="POST">
-                        <input type="hidden" name="_method" value="DELETE">
+                    <form action="/carts/deletecart" method="POST">
+                        <input type="hidden" name="cartsId" value="{{_id}}">
                         <button type="submit">Eliminar Carrito</button>
                     </form>
                 </li>

@@ -13,9 +13,50 @@ const productService = new productManagerMongo()
 const memoryDatabase = new MemoryDatabase()
 const router = Router()
 
+
+router.get('/carts', async (req, res) => {
+    try {
+        console.log("Estoy en GETCARRITO")
+        const carts = await cartService.getcarts();
+            if (!carts || carts.length === 0) {
+                return res.status(404).send({ status: 'error', message: 'No se encontraron carritos' });
+            }
+            
+            console.log(carts)
+
+            res.render('carts', { title: 'Carritos de Compras',
+                carts: carts
+             })
+
+    } catch (ERROR) {
+        console.log('Error:', ERROR);
+        res.status(500).send({ status: 'error', message: 'Error al obtener los carritos' });
+    }
+});
+
+router.post('/carts/deletecart', async (req, res) => {
+    try {
+        console.log("Estoy en el DELETE de Cart")
+        const { cartsId } = req.body;
+
+        console.log(`ID de producto a eliminar: ${cartsId}`)
+
+        const cartsdel = await cartService.deletecart(cartsId)
+        const carts = await cartService.getcarts()
+        res.render('carts', {
+            title: 'Carritos de Compras eliminado',
+            carts: carts
+            
+        })
+    } catch (ERROR) {
+        console.log('Error:', ERROR);
+        res.status(500).send({ status: 'error', message: 'Error al eliminar el producto del carrito' })
+    }
+});
+
 router.post('/carts', async (req, res) => {
     try {
-        console.log("Estoy en el POST de Carritos");
+        console.log("Estoy en el POSTMemo de Carritos");
         const { productId } = req.body;
 
         console.log(`ID de producto recibido: ${productId}`)
@@ -56,7 +97,7 @@ router.post('/carts/delete', async (req, res) => {
         const products = await productService.getProducts();
         const cartProducts = products.filter(product => carts.includes(product._id.toString()))
 
-        res.render('product', {
+        res.render('products', {
             title: 'Carritos de Compras',
             products: cartProducts
         })
@@ -65,6 +106,11 @@ router.post('/carts/delete', async (req, res) => {
         res.status(500).send({ status: 'error', message: 'Error al eliminar el producto del carrito' })
     }
 });
+
+
+
+
+
 router.post('/carts/data', async (req, res) => {
     
     try {
@@ -78,17 +124,20 @@ router.post('/carts/data', async (req, res) => {
   
                 if (vacioCart) {
         
-                 await cartService.updatecart(vacioCart._id, { $push: { ProductID: cartProducts.map(productId => new mongoose.Types.ObjectId(productId)) } } )
+                 const newCart = await cartService.updatecart(vacioCart._id, { $push: { ProductID: cartProducts.map(productId => new mongoose.Types.ObjectId(productId)) } } )
                  
                 } else {
-      
-                    const newCart = await cartService.createcart({ ProductID: cartProducts.map(productId => new mongoose.Types.ObjectId(productId)) })
-           
-  
-                    memoryDatabase.clearCart()
-                    res.render('product', { title: 'Carritos de Compras' })
+                        
+                        const newCart = await cartService.createcart({ ProductID: cartProducts.map(productId => new mongoose.Types.ObjectId(productId)) })
+                        console.log(newCart)
+                        res.render('carts', { title: 'Carritos de Compras',
+                            carts: newCart
+                         })
+                     
+                        memoryDatabase.clearCart()
+                    
 
-                    res.send({ status: 'success', payload: newCart })
+                    
                  }
             } else { return res.status(404).send({ status: 'error', message: 'No hay carritos disponibles.' })
         } 
