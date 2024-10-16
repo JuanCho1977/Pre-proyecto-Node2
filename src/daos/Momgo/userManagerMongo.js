@@ -1,12 +1,12 @@
-const { usertModel } =  require ('../../models/user.model.js')
+const { userModel } =  require ('../../models/user.model.js')
 
 
 class userManagerMongo {
     constructor(){
-        this.model = usertModel
+        this.model = userModel
     }
-    getUsers   = async () => await this.model.find({})
-    getUser   = async opts => await this.model.findOne({'_id':opts}) 
+    getUsers   = async (filter) => await this.model.find({filter})
+    getUser   = async  (filter)=> await this.model.findOne({ filter })
     createUser = async newUser => await this.model.create(newUser)
     deleteUser = async opts => await this.model.deleteOne({'_id':opts})
     updateUser = async (id, upData) =>await this.model.updateOne({'_id':id, upData})

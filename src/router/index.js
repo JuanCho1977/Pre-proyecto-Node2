@@ -4,6 +4,8 @@ const cartsRouter = require('./api/cartsRouter.js')
 const userRoute = require ('./api/userRouter.js')
 const menssageRouter = require('./api/MenssageRouter.js')
 const viewRouter  = require ('./viewsRouter.js')
+const pruebasRouter = require ('./api/pruebasRouter.js')
+const sessionRouter = require ('./api/sessions.router.js')
 
 const router =  Router()
 
@@ -12,7 +14,8 @@ router.use('/api/product', productRouter)
 router.use('/api/carts', cartsRouter)
 router.use('/api/user', userRoute)
 router.use('/api/menssage', menssageRouter)
-
+router.use('/pruebas', pruebasRouter)
+router.use('/api/sessions', sessionRouter)
 
 
 

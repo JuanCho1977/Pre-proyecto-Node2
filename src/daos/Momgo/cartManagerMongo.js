@@ -12,7 +12,7 @@ class cartManagerMongo {
     getcart    = async id => await this.model.findOne({'_id':id}) 
     createcart = async productId => await this.model.create(productId)
     deletecart = async (id) => await this.model.deleteOne({'_id':id})
-    updatecart = async (id, upData) =>await this.model.updateOne({'_id':id, upData})
+    updatecart = async (id, upData) =>await this.model.updateOne({'_id':id}, upData)
 
 } 
 

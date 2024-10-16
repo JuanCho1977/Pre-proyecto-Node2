@@ -2,7 +2,7 @@ const { Router } = require('express')
 const { cartManagerMongo } = require('../../src/daos/Momgo/cartManagerMongo.js')
 const { productManagerMongo } = require('../../src/daos/Momgo/productManagerMongo.js')
 const { MemoryDatabase } = require('../../src/daos/Memory/memory.js')
-
+const {autenticacion} = require ('../middeware/auth.middleware.js')
 
 const mongoose = require('mongoose') 
 const { cartsModel } = require('../models/cart.model.js')
@@ -119,13 +119,14 @@ router.post('/carts/data', async (req, res) => {
         console.log("Productos a transferir a MongoDB:", cartProducts)
   
         const Carts = await cartService.getcarts()
+        console.log(Carts)
             if(Carts) {
                 const vacioCart = Carts.find(c => Array.isArray(c.ProductID) && c.ProductID.length === 0)
   
                 if (vacioCart) {
         
-                 const newCart = await cartService.updatecart(vacioCart._id, { $push: { ProductID: cartProducts.map(productId => new mongoose.Types.ObjectId(productId)) } } )
-                 
+                    const newCart = await cartService.updatecart(vacioCart._id, { $push: { ProductID: cartProducts.map(productId => new mongoose.Types.ObjectId(productId)) } } )
+                    console.log(newCart)
                 } else {
                         
                         const newCart = await cartService.createcart({ ProductID: cartProducts.map(productId => new mongoose.Types.ObjectId(productId)) })
@@ -210,4 +211,17 @@ router.get('/products', async (req, res) => {
         res.status(500).send({ status: 'error', message: 'Error al obtener los productos' })
     }
 })
+
+router.get('/register', (req, res) => {
+    res.render('register')
+})
+router.get('/login', (req, res) => {
+    res.render('login')
+})
+
+
+
+
+
+
 module.exports = router;

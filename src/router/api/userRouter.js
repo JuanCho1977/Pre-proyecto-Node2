@@ -1,5 +1,5 @@
 const {Router} = require('express')
-const { userManagerMongo } = require('../../daos/Momgo/userManagerMongo.js')
+const { userManagerMongo} = require('../../daos/Momgo/userManagerMongo.js')
 
 
 const userService = new userManagerMongo()
@@ -10,12 +10,13 @@ const router = Router()
 
 router.post('/newuser', async (req, res) => {
     try {
-        const {first_name, last_name, birthdate, Location} = req.body
-        if(!first_name || !last_name ||  !birthdate || !Location){
-            return res(404).send({ status: 'error', message: 'debe completar los campos obligatorios' })
-        }      const response = await userService.createUser(req.body)
-                    res.send({status: 'success', payload: response})
+        const {first_name, last_name, email, password} = req.body
+        if(!first_name || !last_name ||  !email || !password){
+            return res.status(404).send({ status: 'error', message: 'debe completar los campos obligatorios' })
+        }      const newUser = await userService.createUser(req.body)
+                    res.send({status: 'success', payload: newUser})
     } catch (ERROR) {
+
         console.log('Error:', ERROR);
             res.status(500).send({ status: 'error', message: 'Error al cargarr el Usuario' })
     }
