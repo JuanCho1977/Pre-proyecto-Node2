@@ -28,7 +28,7 @@ app.use(cookieParser('palabrasecreta')) //la palabra secreta deberia estar en el
 
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: 'mongodb://localhost:27017/HTLM001',
+        mongoUrl: 'mongodb+srv://gonzalezinsfranjm:PmOLcH5O8FLyJCts@cluster0.54olv.mongodb.net/',
         // mongoOptions: {
         //     useNewUrlParser: true,
         //     useUnifiedTopology: true

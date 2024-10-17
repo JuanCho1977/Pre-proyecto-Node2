@@ -9,7 +9,7 @@ const router = Router()
 const userService = new userManagerMongo()
 
 
-router.post('/register', async (req, res) => {
+router.post('/register', passport.authenticate('register', {failureRedirect: '/failregister'}), async (req, res) => {
     console.log("pase por el register")
     const { first_name, last_name, email, password } = req.body
     console.log(first_name, last_name, email, password);
@@ -46,7 +46,7 @@ router.get('/failregister', async (req, res) => {
     res.send({status: 'error', error: 'fallo estrategia'})
 })
 
-router.post('/login', async (req, res) => {
+router.post('/login',  passport.authenticate('login', {failureRedirect: '/failogin'}),async (req, res) => {
     
     const { email, password } = req.body;
 
