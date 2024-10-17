@@ -22,22 +22,22 @@ router.post('/register', async (req, res) => {
     if(userFound) 
         return res.status(401).send({status: 'error', message: 'El usuario con ese email ya existe'});
 
-        const newUser = {
-            first_name,
-            last_name, 
-            email,
-            password: createHash(password) 
-        };
+    const newUser = {
+        first_name,
+        last_name, 
+        email,
+        password: createHash(password) 
+    };
+
+    let result = await userService.createUser(newUser)
+    console.log(result)
     
-        let result = await userService.createUser(newUser)
-        consolo.log(result)
-       
-    
-        res.send({
-            status: 'success',
-            message: 'usuario registrado',
-            data: result
-        });
+
+    res.send({
+        status: 'success',
+        message: 'usuario registrado',
+        data: result
+    });
 
 
 })
