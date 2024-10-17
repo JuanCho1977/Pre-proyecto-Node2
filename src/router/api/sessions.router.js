@@ -46,7 +46,7 @@ router.get('/failregister', async (req, res) => {
     res.send({status: 'error', error: 'fallo estrategia'})
 })
 
-router.post('/login',  passport.authenticate('login', {failureRedirect: '/failogin'}),async (req, res) => {
+router.post('/login',async (req, res) => {
     
     const { email, password } = req.body;
 
@@ -61,6 +61,8 @@ router.post('/login',  passport.authenticate('login', {failureRedirect: '/failog
     
     if(!isValidPassword(password, userFound.password)) 
         return res.send({status: 'error', message: 'las credenciales no coinciden'});
+    
+    
 
     const token = generateToken({
         id: userFound._id,

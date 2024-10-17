@@ -213,10 +213,10 @@ router.get('/products', async (req, res) => {
 })
 
 router.get('/register', (req, res) => {
-    res.render('register')
+    res.status(200).render('register')
 })
 router.get('/login', (req, res) => {
-    res.render('login')
+    res.status(200).render('login')
 })
 
 

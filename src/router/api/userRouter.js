@@ -1,6 +1,6 @@
 const {Router} = require('express')
 const { userManagerMongo} = require('../../daos/Momgo/userManagerMongo.js')
-
+const { authTokenMiddleware } = require('../../utils/jwt.js')
 
 const userService = new userManagerMongo()
 const router = Router()
@@ -22,10 +22,10 @@ router.post('/newuser', async (req, res) => {
     }
 })
 
-router.get('/users', async (req, res) => {
+router.get('/users', authTokenMiddleware , async (req, res) => {
     try {
         console.log('llegue al get Usuarios')
-        const users =  await userService.getUser()
+        const users =  await userService.getUsers()
             if (!users) {
                 return res.status(404).send({ status: 'error', message: 'Usuario no encontrado' });
                 }
