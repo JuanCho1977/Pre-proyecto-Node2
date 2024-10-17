@@ -25,8 +25,8 @@ router.post('/newuser', async (req, res) => {
 router.get('/users', async (req, res) => {
     try {
         console.log('llegue al get Usuarios')
-        const users =  await userService.getUsers()
-            if (!getusers) {
+        const users =  await userService.getUser()
+            if (!users) {
                 return res.status(404).send({ status: 'error', message: 'Usuario no encontrado' });
                 }
                 res.send({status:'succes', playload: users})
@@ -44,6 +44,7 @@ router.get('/user/:pid', async (req, res) => {
         console.log('seleccion de Usuario por ID')
         const {pid} = req.params
             const user =  await userService.getUser(pid)
+            console.log(user)
                 if (!user) {
                     return res.status(404).send({ status: 'error', message: 'Usuario no encontrado' });
                  }
@@ -60,9 +61,10 @@ router.get('/user/:pid', async (req, res) => {
 router.put('/user/:pid', async (req, res) => {
     try{
         console.log('ingrese al PUT')
-        const pid = req.params
+        const id = req.pid
         const body = req.body
-            const Usuario = await userService.updateUser(pid,body)
+            const Usuario = await userService.updateUser(id,body)
+            console.log(Usuario)
             if (!Usuario) {
                 return res.status(404).send({ status: 'error', message: 'Usuario no Modificado' });
              }    
