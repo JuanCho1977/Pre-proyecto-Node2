@@ -1,21 +1,21 @@
 
-const express   =  require ('express')
-const routerApp =  require('./router/index.js')
-const { connectDb } = require('./config/index.js')
-const path = require('path')
-const {create} = require('express-handlebars')
-const passport = require('passport')
-const { initializePassport } = require('./config/passport.config')
+const express                   = require ('express')
+const routerApp                 = require('./router/index.js')
+const { connectDb, configObject } = require('./config/index.js')
+const path                      = require('path')
+const {create}                  = require('express-handlebars')
+const passport                  = require('passport')
+const { initializePassport }    = require('./config/passport.config')
 
 
-const cookieParser = require ('cookie-parser')
-const session = require ('express-session')
-//const FileStore = require ('session-file-store')
-const MongoStore = require ('connect-mongo')
+const cookieParser              = require ('cookie-parser')
+const session                   = require ('express-session')
+//const FileStore               = require ('session-file-store')
+const MongoStore                = require ('connect-mongo')
 
 
-const app       = express()
-const PORT   = process.env.PORT ||  8080
+const app    = express()
+const PORT   = configObject.port
 
 
 app.use(express.json())
@@ -38,7 +38,7 @@ app.use(session({
 
 initializePassport()
 app.use(passport.initialize())
-app.use(passport.session())
+
 
 connectDb()
 

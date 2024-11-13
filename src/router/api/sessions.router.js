@@ -1,9 +1,12 @@
 const { Router }            = require('express')
-const { authentication }    = require('../../middeware/auth.middleware.js')
+//const { authentication }    = require('../../middeware/auth.middleware.js')
 const {userManagerMongo }  = require('../../daos/Momgo/userManagerMongo.js')
 const { createHash, isValidPassword } = require('../../utils/bcrypt.js')
 const { generateToken }     = require ('../../utils/jwt.js')
 const passport = require('passport')
+const { authTokenMiddleware } =  require('../../utils/jwt.js')
+const { passportCall } = require('../../middeware/passport/passportCall.js')
+const { authorization } = require('../../middeware/passport/authorization.middleware.js')
 
 const router = Router()
 const userService = new userManagerMongo()
@@ -67,9 +70,13 @@ router.post('/login',async (req, res) => {
     const token = generateToken({
         id: userFound._id,
         email: userFound.email, 
-        role: userFound.role === 'admin'
+        role: userFound.role === 'admin'// preguntamos si es admin y devolvemos un true o  flase que viaja a jwt.js
     })
-    res.send({
+    res.cookie('token', token,{
+        maxAge:1000*60*60*24,
+        httpOnly: true //para evitar que se vea en el document.cookies, que sea accesible en una consulta http
+
+    }).send({
         status: 'success',
         message: 'Usuario loggeado',
         token
@@ -83,9 +90,16 @@ router.get('/failogin', async (req, res) => {
 })
 
 
-router.get('/current', authentication, (req, res) => {
-    res.send('datos sensibles')
+
+router.get('/current', passportCall('jwt'), authorization('admin') (req, res) => {
+    res.send({datauser: req.user, masasage:'datos sensibles'})
 })
+
+
+//router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
+//    res.send({datauser: req.user, masasage:'datos sensibles'})
+//})
+
 
 
 router.post('/changepass', async (req, res) => {

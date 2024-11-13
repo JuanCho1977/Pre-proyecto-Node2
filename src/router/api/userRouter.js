@@ -1,104 +1,31 @@
 const {Router} = require('express')
-const { userManagerMongo} = require('../../daos/Momgo/userManagerMongo.js')
-const { authTokenMiddleware } = require('../../utils/jwt.js')
+const { passportCall } = require('../../middeware/passport/passportCall.js')
+const { UserControler }  = require ('../../controllers/user.controller.js')
 
-const userService = new userManagerMongo()
 const router = Router()
 
+const {
+
+    getUsers,
+    getUser,
+    createUser,
+    updateUser,
+    deleteUser
+
+} = new UserControler()
+
+router.post('/newuser',                     createUser )
+
+router.get('/users', passportCall('jwt'),   getUsers )
+
+router.get('/user/:pid',                    getUser)
+
+router.put('/user/:pid',                    updateUser )
+
+router.delete('/:pid',                      deleteUser)
 
 
 
-router.post('/newuser', async (req, res) => {
-    try {
-        const {first_name, last_name, email, password} = req.body
-        if(!first_name || !last_name ||  !email || !password){
-            return res.status(404).send({ status: 'error', message: 'debe completar los campos obligatorios' })
-        }      const newUser = await userService.createUser(req.body)
-                    res.send({status: 'success', payload: newUser})
-    } catch (ERROR) {
-
-        console.log('Error:', ERROR);
-            res.status(500).send({ status: 'error', message: 'Error al cargarr el Usuario' })
-    }
-})
-
-router.get('/users', authTokenMiddleware , async (req, res) => {
-    try {
-        console.log('llegue al get Usuarios')
-        const users =  await userService.getUsers()
-            if (!users) {
-                return res.status(404).send({ status: 'error', message: 'Usuario no encontrado' });
-                }
-                res.send({status:'succes', playload: users})
-                           
-    }catch (ERROR){
-        
-        console.log('Error:', ERROR);
-            res.status(500).send({ status: 'error', message: 'Error al obtener el Usuario' })
-    }
-    
-})
-
-router.get('/user/:pid', async (req, res) => {
-    try {
-        console.log('seleccion de Usuario por ID')
-        const {pid} = req.params
-            const user =  await userService.getUser(pid)
-            console.log(user)
-                if (!user) {
-                    return res.status(404).send({ status: 'error', message: 'Usuario no encontrado' });
-                 }
-        
-                      res.send({status:'succes', playload: user})
-                   
-    }catch (ERROR){
-        
-        console.log('Error:', ERROR);
-            res.status(500).send({ status: 'error', message: 'Error al obtener el Usuario' })
-    }
-})
-
-router.put('/user/:pid', async (req, res) => {
-    try{
-        console.log('ingrese al PUT')
-        const id = req.pid
-        const body = req.body
-            const Usuario = await userService.updateUser(id,body)
-            console.log(Usuario)
-            if (!Usuario) {
-                return res.status(404).send({ status: 'error', message: 'Usuario no Modificado' });
-             }    
-                  res.send({status:'succes', playload: Usuario})               
-    }catch (ERROR){
-    
-         console.log('Error:', ERROR);
-            res.status(500).send({ status: 'error', message: 'Error al obtener el Usuario' })
-                    
-    } 
-})
-
-router.delete('/:pid', async (req,res) =>{
-    try {
-        console.log('Llegue al delete user')
-
-        const pid = req.params
-            const Usuario = await userService.deleteUser(pid)
-                 if (!Usuario) {
-                     return res.status(404).send({ status: 'error', message: 'Usuario no Borrado' });
-                     }    
-                        res.send({status:'succes', playload: Usuario})               
-                }catch (ERROR){
-    
-                     console.log('Error:', ERROR);
-                         res.status(500).send({ status: 'error', message: 'Error al borrar el Usuario' })
-                    
-    } 
-})
-
-
-
-
-
-
-
-module.exports = router
+module.exports = {
+    router
+}

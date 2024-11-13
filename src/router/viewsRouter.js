@@ -1,6 +1,6 @@
 const { Router } = require('express')
-const { cartManagerMongo } = require('../../src/daos/Momgo/cartManagerMongo.js')
-const { productManagerMongo } = require('../../src/daos/Momgo/productManagerMongo.js')
+const { cartDaoMongo } = require('../../src/daos/Momgo/cartDaoMongo.js')
+const { productDaoMongo } = require('../../src/daos/Momgo/productDaoMongo.js')
 const { MemoryDatabase } = require('../../src/daos/Memory/memory.js')
 const {autenticacion} = require ('../middeware/auth.middleware.js')
 
@@ -8,8 +8,8 @@ const mongoose = require('mongoose')
 const { cartsModel } = require('../models/cart.model.js')
 const { productModel } = require('../models/products.model.js')
 
-const cartService = new cartManagerMongo()
-const productService = new productManagerMongo()
+const cartService = new cartDaoMongo()
+const productService = new productDaoMongo()
 const memoryDatabase = new MemoryDatabase()
 const router = Router()
 

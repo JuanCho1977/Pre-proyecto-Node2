@@ -1,65 +1,39 @@
-const passport = require('passport')
-const passportLocal = require('passport-local')
-const { userManagerMongo } = require('../daos/Momgo/userManagerMongo.js')
+const passport           = require('passport')
+//const passportLocal = require('passport-local')
+const jwt               = require ('passport-jwt')
+const { configObject } = require ('../config/index.js')
+
+
 const { createHash, isValidPassword } = require('../utils/bcrypt.js')
 
-const LocalStrategy = passportLocal.Strategy
-const userService   = new userManagerMongo()
+
+const JWTStrategy = jwt.Strategy
+const Extract     = jwt.ExtractJwt
+
+
 
 const initializePassport = () => {
+
+    const cookiesExtractor = rq => {
+        let token = null
+        if(req && req.cookies){
+            token = req.cookies['token']
+        } 
+        return token
+    }
     // middleware son las estrategias que vamos a crear y configurar
-    
-    passport.use('register', new LocalStrategy({
-       
-        passReqToCallback: true,
-        usernameField: 'email' 
-    }, async (req, username, password, done)=>{
-        // toda la logica del register
-        
-        const { first_name, last_name } = req.body
+    passport.use ('jwt', new JWTStrategy({
+        jwtFromRequest: jwt.ExtractJwt.fromExtractors([cookiesExtractor]),
+        secretOrKey: configObject.private_key
+
+    }, async (jwt_playload, done) =>{
         try {
-            let userFound = await userService.getUser({email: username})
-            if (userFound) return done(null, false)
-
-            let newUser = {
-                first_name,
-                last_name, 
-                email: username,
-                password: createHash(password)
-            }
-            let result = await userService.createUser(newUser)
-            return done(null, result)
-
-            
-        } catch (error) {
-            return done('Error al crear un usuario '+error)
-        }
-    }))
-
-    
-    passport.use('login', new LocalStrategy({
-        usernameField: 'email'
-    }, async ( username, password, done ) => {
-        try {
-            const user = await userService.getUser({email: username})
-            console.log(user)
-            if (!user) return done(null, false)
-
-            if(!isValidPassword(password, user.password)) return done(null, false)
-            return done(null, user)
+            return done(null, jwt_playload)
         } catch (error) {
             return done(error)
         }
+
     }))
-
-    passport.serializeUser((user, done)=>{
-        done(null, user.id)
-    })
-
-    passport.deserializeUser(async (id, done)=>{
-        let user = await userService.getUser({_id: id})
-        done(null, user)
-    })
 }
 
 module.exports = {

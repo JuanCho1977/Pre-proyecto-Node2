@@ -16,7 +16,7 @@ const authTokenMiddleware = (req, res, next) => {
     jwt.verify(token, PRIVATE_KEY, (error, dataToken) => {
         console.log(dataToken)
         if (dataToken.role !== true) {
-            return res.send('No tenes acceso admin')
+            return res.send('No tenes acceso de administrador')
         }
         req.user = dataToken
         next()
@@ -25,5 +25,6 @@ const authTokenMiddleware = (req, res, next) => {
 
 module.exports = {
     generateToken, 
-    authTokenMiddleware
+    authTokenMiddleware,
+    PRIVATE_KEY
 }
