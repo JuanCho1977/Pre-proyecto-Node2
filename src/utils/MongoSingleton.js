@@ -1,11 +1,11 @@
 
 const { connent } = require("mongoose")
-
+const { configObject } = requier("../config/index.js")
 
 class MongoSingleton {
     static #instance
     constructor () {
-        connent('mongodb+srv://gonzalezinsfranjm:PmOLcH5O8FLyJCts@cluster0.54olv.mongodb.net/')
+        connent( configObject.URL)
     }
     static getInstance(){
         if(this.#instance){

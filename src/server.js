@@ -21,14 +21,14 @@ const PORT   = configObject.port
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static(__dirname+'public'))
-app.use(cookieParser('palabrasecreta')) //la palabra secreta deberia estar en el .env de cookieParse
+app.use(cookieParser(configObject.PalabClav)) //la palabra secreta deberia estar en el .env de cookieParse
 //app.use(logger('dev'))
 
 
 
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: 'mongodb+srv://gonzalezinsfranjm:PmOLcH5O8FLyJCts@cluster0.54olv.mongodb.net/',
+        mongoUrl: configObject.URL,
         ttl: 1000000000000
     }),
     secret: 'secretcoder',
