@@ -91,9 +91,9 @@ router.get('/failogin', async (req, res) => {
 
 
 
-router.get('/current', passportCall('jwt'), authorization('admin') (req, res) => {
-    res.send({datauser: req.user, masasage:'datos sensibles'})
-})
+router.get('/current', passportCall('jwt'), authorization('admin'), async (req , res) => {
+    res.send({datauser: req.user, message:'datos sensibles'});
+});
 
 
 //router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -123,57 +123,6 @@ router.get('/logout', (req, res)=> {
     })
     res.send('logout')
 })
-
-
-
-// router.post('/register', async (req, res) => {
-//     const {first_name, last_name, email, password } = req.body
-//     if (!email || !password) {
-//         return res.status(400).send({status: 'error', error: 'email y password son obligatorios'})
-//     }
-
-//     const userFound = await userServise.getUser({email})
-//     if (userFound) {
-//         return res.status(401).send({status: 'error', error: 'El usuario ya existe'})
-//     }
-
-//     const newUser = {
-//         first_name, 
-//         last_name,
-//         email,
-//         password: createHash(password)
-//     }
-
-//     const result = await userServise.createUser(newUser)
-
-//     res.redirect('/login')
-// })
-
-
-// router.post('/login', async (req, res) => {
-//     const { email, password } = req.body
-//     // console.log(email, password)
-//     const userFound = await userServise.getUser({email})
-//     console.log(userFound)
-//     if (!userFound) {
-//         return res.send({stauts: 'error', error: 'no existe el usuario'})
-//     }
-
-//     // if (userFound.email !== email || userFound.password !== password) {
-//     //     return res.send({stauts: 'error', error: 'el email o la contraseña no coinciden'})
-//     // }
-    
-//     if (isValidPassword(password, userFound.password)) {
-//         return res.send({stauts: 'error', error: 'el email o la contraseña no coinciden'})
-//     }
-
-//     req.session.user = {
-//         email,
-//         isAdmin: userFound.role === 'admin'
-//     }
-
-//     res.send('logueado correctamente')
-// })
 
 
 
