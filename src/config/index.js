@@ -1,7 +1,7 @@
 const { connect }       = require("mongoose");
 const {MongoSingleton}  = require ('../utils/MongoSingleton.js')
 const dotenv            = require('dotenv')
-const { program }       = requier ('../utils/commander.js')
+const { program }       = require ('../utils/commander.js')
  
 
 

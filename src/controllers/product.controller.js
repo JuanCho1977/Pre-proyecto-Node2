@@ -97,6 +97,4 @@ class productController{
 
 }
 
-module.export = {
-    productController
-}
+module.exports = {productController}

@@ -6,14 +6,19 @@ class UserControler {
 
     }
 
-    getUsers    = async (req, res) => {
+    getUsers    = async (req, res, next) => {
         try {
             console.log('llegue al get Usuarios')
-            const users =  await userService.getUsers()
-                if (!users) {
-                    return res.status(404).send({ status: 'error', message: 'Usuario no encontrado' });
-                    }
-                    res.send({status:'succes', playload: users})
+            if (req.users.role !== configObject.ROLE) {
+                return res.send('no puede avanzar a partir de aqui')
+            };
+            next();
+            
+                 const users =  await userService.getUsers();
+                    if (!users) {
+                        return res.status(404).send({ status: 'error', message: 'Usuario no encontrado' });
+                        };
+                        res.send({status:'succes', playload: users});
                                
         }catch (ERROR){
             
@@ -40,12 +45,12 @@ class UserControler {
                 res.status(500).send({ status: 'error', message: 'Error al obtener el Usuario' })
         }
     } 
-    creatuser   = async (req, res) => {
+    creatUser   = async (req, res) => {
         try {
             const {first_name, last_name, email, password} = req.body
             if(!first_name || !last_name ||  !email || !password){
                 return res.status(404).send({ status: 'error', message: 'debe completar los campos obligatorios' })
-            }      const newUser = await userService.createUser(req.body)
+            }      const newUser = await userService.creatUser(req.body)
                         res.send({status: 'success', payload: newUser})
         } catch (ERROR) {
     
@@ -94,6 +99,4 @@ class UserControler {
 
 
 
-module.export = {
-    UserControler
-}
+module.exports = {UserControler};

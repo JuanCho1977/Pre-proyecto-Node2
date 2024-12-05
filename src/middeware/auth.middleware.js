@@ -1,4 +1,4 @@
-const { configObject } = require('./config/index.js')
+const { configObject } = require('../config/index.js')
 
 const authentication = (req, res, next) => {
     console.log(req.session.user)

@@ -84,7 +84,6 @@ class cartController{
 }
 
 
-module.export = {
-    cartController
-}
+module.exports = {cartController};
+
 

@@ -1,28 +1,23 @@
 const {Router} = require('express')
 const { passportCall } = require('../../middeware/passport/passportCall.js')
-const { UserControler }  = require ('../../controllers/user.controller.js')
+const  {UserControler}  = require ('../../controllers/user.controller.js')
+
 
 const router = Router()
 
-const {
 
-    getUsers,
-    getUser,
-    createUser,
-    updateUser,
-    deleteUser
 
-} = new UserControler()
+const userController = new UserControler()
 
-router.post('/newuser',                     createUser )
+router.post('/newuser',                     userController.creatUser )
 
-router.get('/users', passportCall('jwt'),   getUsers )
+router.get('/users', passportCall('jwt'),    userController.getUsers )
 
-router.get('/user/:pid',                    getUser)
+router.get('/user/:pid',                    userController.getUser)
 
-router.put('/user/:pid',                    updateUser )
+router.put('/user/:pid',                    userController.UpdateUser )
 
-router.delete('/:pid',                      deleteUser)
+router.delete('/:pid',                      userController.deleteUser)
 
 
 

@@ -1,6 +1,6 @@
 
 const { connent } = require("mongoose")
-const { configObject } = requier("../config/index.js")
+const { configObject } = require("../config/index.js")
 
 class MongoSingleton {
     static #instance

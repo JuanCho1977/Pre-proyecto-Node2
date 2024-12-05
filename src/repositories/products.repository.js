@@ -12,6 +12,4 @@ class productRepository {
 
 } 
 
-module.exports = {
-    productRepository
-}
+module.exports = productRepository

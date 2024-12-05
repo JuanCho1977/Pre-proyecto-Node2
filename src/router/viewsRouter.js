@@ -1,23 +1,22 @@
 const { Router } = require('express')
-const { cartDaoMongo } = require('../../src/daos/Momgo/cartDaoMongo.js')
-const { productDaoMongo } = require('../../src/daos/Momgo/productDaoMongo.js')
+const mongoose = require('mongoose') 
+const { productController } = require ('../../src/controllers/product.controller.js')
+const { cartController } = require ('../../src/controllers/cart.controller.js')
 const { MemoryDatabase } = require('../../src/daos/Memory/memory.js')
 const {autenticacion} = require ('../middeware/auth.middleware.js')
-
-const mongoose = require('mongoose') 
-const { cartsModel } = require('../models/cart.model.js')
 const { productModel } = require('../models/products.model.js')
 
-const cartService = new cartDaoMongo()
-const productService = new productDaoMongo()
 const memoryDatabase = new MemoryDatabase()
 const router = Router()
+
+const CartController = new cartController()
+const ProductController = new productController();
 
 
 router.get('/carts', async (req, res) => {
     try {
         console.log("Estoy en GETCARRITO")
-        const carts = await cartService.getcarts();
+        const carts = await CartController.getcarts;
             if (!carts || carts.length === 0) {
                 return res.status(404).send({ status: 'error', message: 'No se encontraron carritos' });
             }
@@ -41,8 +40,9 @@ router.post('/carts/deletecart', async (req, res) => {
 
         console.log(`ID de producto a eliminar: ${cartsId}`)
 
-        const cartsdel = await cartService.deletecart(cartsId)
-        const carts = await cartService.getcarts()
+        const cartsdel = await CartController.deletecart(cartsId)
+        const carts = await CartController.getcarts
+       
         res.render('carts', {
             title: 'Carritos de Compras eliminado',
             carts: carts
@@ -69,7 +69,7 @@ router.post('/carts', async (req, res) => {
         }
 
         // voy al memory
-        const products = await productService.getProducts(); // Cambia a obtener todos los productos
+        const products = await ProductController.getProducts; // Cambia a obtener todos los productos
         const cartProducts = products.filter(product => carts.includes(product._id.toString()))
 
         res.render('product', {
@@ -94,7 +94,7 @@ router.post('/carts/delete', async (req, res) => {
         const carts = memoryDatabase.removeProductFromCart(productId)
 
         // Obtengo los detalles del producto desde la base de datos MEMORY
-        const products = await productService.getProducts();
+        const products = await ProductController.getProducts;
         const cartProducts = products.filter(product => carts.includes(product._id.toString()))
 
         res.render('products', {
@@ -118,18 +118,18 @@ router.post('/carts/data', async (req, res) => {
         const cartProducts = memoryDatabase.getCart()
         console.log("Productos a transferir a MongoDB:", cartProducts)
   
-        const Carts = await cartService.getcarts()
+        const Carts = await  CartController.getcarts
         console.log(Carts)
             if(Carts) {
                 const vacioCart = Carts.find(c => Array.isArray(c.ProductID) && c.ProductID.length === 0)
   
                 if (vacioCart) {
         
-                    const newCart = await cartService.updatecart(vacioCart._id, { $push: { ProductID: cartProducts.map(productId => new mongoose.Types.ObjectId(productId)) } } )
+                    const newCart = await  CartController.updatecart(vacioCart._id, { $push: { ProductID: cartProducts.map(productId => new mongoose.Types.ObjectId(productId)) } } )
                     console.log(newCart)
                 } else {
                         
-                        const newCart = await cartService.createcart({ ProductID: cartProducts.map(productId => new mongoose.Types.ObjectId(productId)) })
+                        const newCart = await  CartController.createcart({ ProductID: cartProducts.map(productId => new mongoose.Types.ObjectId(productId)) })
                         console.log(newCart)
                         res.render('carts', { title: 'Carritos de Compras',
                             carts: newCart
@@ -160,7 +160,7 @@ router.get('/products/search', async (req, res) => {
           console.log("ingreso un codigo invalido")
         return res.status(404).send({ status: 'error', message: 'Producto no encontrado' });
        }
-      const products = await productService.getProduct(id)
+      const products = await ProductController.getProduct(id)
       console.log(products)
       res.render('product', {
           

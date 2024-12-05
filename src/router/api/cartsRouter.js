@@ -1,26 +1,19 @@
 const {Router}              = require('express')
-const { cartController }    = require( '../../controllers/cart.controller.js')
+const { cartController }  = require( '../../controllers/cart.controller.js')
 const router = Router()
 
-const {
-    createcar.
-    getcarts,
-    getcart.
-    updatecart,
-    deletecart
-
-} = new cartController
+const CartController = new cartController()
 
 
-router.post('/add',     createcart );
+router.post('/add',     CartController.createcart );
 
-router.get('/carts',    getcarts);
+router.get('/carts',    CartController.getcarts);
 
-router.get('/cart/:id',  getcart );
+router.get('/cart/:id',  CartController.getcart );
 
-router.put('/cart/:id', updatecart);
+router.put('/cart/:id', CartController.updatecart);
 
-router.delete('/:id',   deletecart);
+router.delete('/:id',   CartController.deletecart);
 
 
 

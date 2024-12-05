@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { configObject } = require('./config/index.js')
+const { configObject } = require('../config/index.js')
 
 const PRIVATE_KEY = configObject.PRIVATE_KEY
 

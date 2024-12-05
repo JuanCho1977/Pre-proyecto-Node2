@@ -1,6 +1,6 @@
 const { Router }            = require('express')
 //const { authentication }    = require('../../middeware/auth.middleware.js')
-const {userManagerMongo }  = require('../../daos/Momgo/userManagerMongo.js')
+const { UserControler }  = require ('../../controllers/user.controller.js')
 const { createHash, isValidPassword } = require('../../utils/bcrypt.js')
 const { generateToken }     = require ('../../utils/jwt.js')
 const passport = require('passport')
@@ -9,7 +9,8 @@ const { passportCall } = require('../../middeware/passport/passportCall.js')
 const { authorization } = require('../../middeware/passport/authorization.middleware.js')
 
 const router = Router()
-const userService = new userManagerMongo()
+
+const userService = new UserControler()
 
 
 router.post('/register', passport.authenticate('register', {failureRedirect: '/failregister'}), async (req, res) => {
